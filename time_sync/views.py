@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Participant
 from .forms import RegisterForm, LoginForm
 from django.contrib.auth.hashers import make_password, check_password
+from .decorators import user_login_required
 
 
 # Create your views here.
@@ -62,6 +63,8 @@ def login(request):
 def get_user(request):
     return Participant.objects.get(id=request.session['user_id'])
  
+
+@user_login_required
 def home(request):
 
     if request.method == 'GET':
@@ -70,3 +73,8 @@ def home(request):
             return render(request, 'home.html', {'user': user})
         else:
             return redirect('time_sync:login')
+
+def logout(request):
+    if 'user_id' in request.session:
+        del request.session['user_id'] # delete user session
+    return redirect('time_sync:login')

@@ -1,6 +1,22 @@
+
+
+{% extends 'base.html' %}
+	
+{% block content %}
+
+
 <form method="post">
     {% csrf_token %}
+    <div class="form-group">
+
+    </div>
     {{ form.as_p }}
-    <button>Login</button>
-    <div>Don't have an account? <a href="{% url 'time_sync:register' %}">Sign up</a>
+
+    <div class="form-group text-center">
+        <button class="btn btn-primary mb-3">Sign in</button>
+    </div>
+    <div class="text-center">Don't have an account? <a href="{% url 'time_sync:register' %}">Sign up</a>
 </form>
+
+
+{% endblock content %}

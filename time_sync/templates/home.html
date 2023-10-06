@@ -1,3 +1,8 @@
+{% extends 'base.html' %}
+	
+{% block content %}
+
+
 <div>
     Welcome {{ user.username }}
     <p> Username : {{ user.username }} </p>
@@ -7,3 +12,7 @@
 <div>
     <h1>Hello buddy, get ready for some test. Heuheue</h1>
 </div>
+
+<div>To logout, <a href="{% url 'time_sync:logout' %}">Click Here</a></div>
+
+{% endblock content %}
