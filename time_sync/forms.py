@@ -1,5 +1,5 @@
 from django import forms    
-from .models import Participant
+from .models import Participant, Test
 from django.forms import TextInput, EmailInput, PasswordInput
 
 passwordInputWidget = {
@@ -26,11 +26,21 @@ class LoginForm(forms.ModelForm):
     class Meta:
         model = Participant
         fields = ['username', 'password']
-        widgets = widgets = {
+        widgets = {
             'username': TextInput(attrs={
                 'class': 'form-control mb-3',
             }),
             'password': PasswordInput(attrs={
+                'class': 'form-control mb-3',
+            })
+        }
+
+class AddTestForm(forms.ModelForm):
+    class Meta:
+        model = Test
+        fields = '__all__'
+        widgets = {
+            'test_name': TextInput(attrs={
                 'class': 'form-control mb-3',
             })
         }

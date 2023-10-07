@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .models import Participant
-from .forms import RegisterForm, LoginForm
+from .models import Participant, Test
+from .forms import RegisterForm, LoginForm, AddTestForm
 from django.contrib.auth.hashers import make_password, check_password
 from .decorators import user_login_required
 
@@ -28,14 +28,13 @@ def register(request):
                 return render(request, 'register.html', {'form': form, 'error': error})
 
             cleaned_data['password'] = make_password(cleaned_data['password'])
-            print(cleaned_data)
             new_user = Participant(**cleaned_data)
             new_user.save()
             success = "User created successfully"
         else:
             error = "Some error occured"
             return render(request, 'register.html', {'form': form, 'error': error})
-            pass
+            
 
     return render(request, 'register.html', {'form': form, 'success': success})
 
@@ -62,7 +61,12 @@ def login(request):
             
 def get_user(request):
     return Participant.objects.get(id=request.session['user_id'])
- 
+
+
+def logout(request):
+    if 'user_id' in request.session:
+        del request.session['user_id'] # delete user session
+    return redirect('time_sync:login')
 
 @user_login_required
 def home(request):
@@ -74,7 +78,34 @@ def home(request):
         else:
             return redirect('time_sync:login')
 
-def logout(request):
-    if 'user_id' in request.session:
-        del request.session['user_id'] # delete user session
-    return redirect('time_sync:login')
+@user_login_required
+def add_test(request):
+    success = None
+
+    if request.method == 'GET':
+        form = AddTestForm()
+        return render(request, 'addTest.html', {'form': form})
+    
+    if request.method == 'POST':
+        form = AddTestForm(request.POST)
+
+        if form.is_valid():
+            cleaned_data = form.cleaned_data
+            user = form.save(commit=False)
+
+            if (Test.objects.filter(test_name=cleaned_data['test_name'])).exists():
+                error = "This test is already there"
+                return render(request, 'addTest.html', {'form': form, 'error': error})
+            
+            user.save()
+            success = "Test successfuly added"
+        else:
+            error = "Some error occured"
+            return render(request, 'addTest.html', {'form': form, 'error': error})
+        
+    return render(request, 'addTest.html',  {'form': form, 'success': success})
+        
+            
+            
+        
+
