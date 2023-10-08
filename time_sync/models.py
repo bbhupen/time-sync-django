@@ -25,12 +25,12 @@ class Question(models.Model):
 
 class TestParticipant(models.Model):
     test_id= models.ForeignKey(Test, on_delete=models.CASCADE) #test
-    username= models.ForeignKey(Participant, on_delete=models.CASCADE) #username
+    user_id= models.ForeignKey(Participant, on_delete=models.CASCADE) #username
 
 
 class Time(models.Model):
     test_id= models.ForeignKey(Test, on_delete=models.CASCADE) #test
-    username= models.ForeignKey(Participant, on_delete=models.CASCADE) #username
+    user_id= models.ForeignKey(Participant, on_delete=models.CASCADE) #username
     time= models.IntegerField() #updated time left (seconds)
 
 

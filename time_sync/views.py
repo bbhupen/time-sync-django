@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Participant, Test
+from .models import Participant, Test, TestParticipant
 from .forms import RegisterForm, LoginForm, AddTestForm
 from django.contrib.auth.hashers import make_password, check_password
 from .decorators import user_login_required
@@ -52,12 +52,11 @@ def login(request):
         user_data = (Participant.objects.get(username=username)).as_dict()
         
         if(check_password(password, user_data['password'])):
-            print('Login Successfull !!')
             request.session['user_id'] = user_data['id']
-            print(request.session)
-            return redirect('time_sync:home')
+            return redirect('time_sync:home')    
 
-        return render(request, 'login.html', {'form': form})
+        error = "Either password or userid is wrong"
+        return render(request, 'login.html', {'form': form, 'error': error})
             
 def get_user(request):
     return Participant.objects.get(id=request.session['user_id'])
@@ -98,14 +97,37 @@ def add_test(request):
                 return render(request, 'addTest.html', {'form': form, 'error': error})
             
             user.save()
-            success = "Test successfuly added"
+            success = "Test Successfully added"
         else:
             error = "Some error occured"
             return render(request, 'addTest.html', {'form': form, 'error': error})
         
     return render(request, 'addTest.html',  {'form': form, 'success': success})
-        
-            
-            
-        
 
+@user_login_required
+def all_test(request):
+    if request.method == 'GET':
+        test_data = (Test.objects.filter()).values()
+        return render(request, 'allTest.html', {'test_data': test_data})
+
+
+# this two are left
+@user_login_required
+def join_test(request):
+
+    if request.method == 'POST':
+        test_id = request.POST['test_id']
+        user_id = request.POST['user_id']
+
+        if (TestParticipant.objects.filter(test_id=test_id, user_id=user_id)).exists():
+            return redirect('time_sync:test')
+        
+        TestParticipant.objects.create(test_id=test_id, user_id=user_id)
+        return redirect('time_sync:test')
+
+
+
+@user_login_required
+def test(request):
+    if request.method == 'GET':
+        return render(request, 'test.html')

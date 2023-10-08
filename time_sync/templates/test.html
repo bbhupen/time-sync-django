@@ -3,6 +3,12 @@
 {% block content %}
 
 
+{% if success %}
+<div> {{ success }} </div>
+{% endif %}{% if error %}
+<div> {{ error }} </div>
+{% endif %}
+
 <div>
     Welcome {{ user.username }}
     <p> Username : {{ user.username }} </p>
@@ -11,8 +17,8 @@
 
 <div>
     <h1>Hello buddy, get ready for some test. Heuheue</h1>
-    <a href="{% url 'time_sync:add-test' %}">Add test</a>
-    <a href="{% url 'time_sync:all-test' %}">Browse test</a>
+    
+    <a href="{% url 'time_sync:add-test' %}">Start test</a>
 </div>
 
 <div>To logout, <a href="{% url 'time_sync:logout' %}">Click Here</a></div>

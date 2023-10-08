@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+	
+{% block content %}
+
+
+<h1>This will contain all the test</h1>
+
+<div class="container">
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Test id</th>
+                <th>Test name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        {% for test in test_data %}
+        <tr>
+            <td>{{ test.id }}</td>
+            <td>{{ test.test_name }}</td>  
+            <td><a class="btn btn-success" href="{% url 'time_sync:join-test' %}?test_id={{ test.id }}">Join Test</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+
+{% endblock content %}
