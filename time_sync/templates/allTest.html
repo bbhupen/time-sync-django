@@ -18,7 +18,7 @@
         <tr>
             <td>{{ test.id }}</td>
             <td>{{ test.test_name }}</td>  
-            <td><a class="btn btn-success" href="{% url 'time_sync:join-test' %}?test_id={{ test.id }}">Join Test</a></td>
+            <td><a class="btn btn-success" href="{% url 'time_sync:join-test' %}?test_id={{ test.id }}">Go To Test</a></td>
         </tr>
         {% endfor %}
     </table>

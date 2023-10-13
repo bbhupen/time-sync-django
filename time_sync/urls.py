@@ -10,6 +10,6 @@ urlpatterns = [
     path('logout/', views.logout, name='logout'),
     path('add-test/', views.add_test, name='add-test'),
     path('all-test/', views.all_test, name='all-test'),
-    path('test/', views.test, name='some-test'),
+    path('test/', views.test, name='test'),
     path('join-test/', views.join_test, name='join-test')
 ]

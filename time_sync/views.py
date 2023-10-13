@@ -115,6 +115,11 @@ def all_test(request):
 @user_login_required
 def join_test(request):
 
+    if request.method == 'GET':
+        test_id = request.GET.get('test_id')
+        user = get_user(request)
+        return render(request, 'test.html', {'test_id': test_id, 'user': user})
+
     if request.method == 'POST':
         test_id = request.POST['test_id']
         user_id = request.POST['user_id']

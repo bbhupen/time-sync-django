@@ -15,11 +15,13 @@
     <p> Email : {{ user.email }} </p>
 </div>
 
-<div>
+<div class="mb-3">
     <h1>Hello buddy, get ready for some test. Heuheue</h1>
     
-    <a href="{% url 'time_sync:add-test' %}">Start test</a>
+    <a class="btn btn-success" href="{% url 'time_sync:join-test' %}?test_id={{ test_id }}&user_id={{ request.session.user_id }}">Start test</a>
 </div>
+
+<div class="mb-3"><a class="btn btn-primary" href="{% url 'time_sync:home' %}">Go home</a></div>
 
 <div>To logout, <a href="{% url 'time_sync:logout' %}">Click Here</a></div>
 
